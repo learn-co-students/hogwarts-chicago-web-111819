@@ -9,25 +9,32 @@ export default class HogContainer extends Component {
     constructor(){
         super()
         this.state = {
-            isChecked: false
+            greasedFilter: false
+            // hogs: hogObjs
         }
     }
 
     changeGreaseBoxStatus = () => {
-        this.setState({
-            isChecked: true
+         this.setState(prevState => {
+             return (
+                {greasedFilter: !prevState.greasedFilter}
+             )
     })
-    }
+}
 
     renderHogs = () => {
-        return hogObjs.map(hogObj => {
-            return <HogCard hogData={hogObj}/>
+        // const hogsToShow = hogs
+        // if greased take this.stte.hogs and remove the greased and thn pass 
+        return hogObjs.map((hogObj, index) => {
+            return <HogCard key={index} hogData={hogObj}/>
         })
     }
 
     renderFilteredHogs = () => {
-        return hogObjs.map(hogObj => {
-
+        return hogObjs.map((hogObj, index) => {
+            if (hogObj.greased === true) {
+                return <HogCard key={index} hogData={hogObj} />
+            } 
         })
     }
 
@@ -35,7 +42,8 @@ export default class HogContainer extends Component {
         return (
             <div>
                 < Filter changeGreaseBoxStatus={this.changeGreaseBoxStatus}/>  
-                {this.renderHogs()}
+                
+                {this.state.greasedFilter === true ? this.renderFilteredHogs() : this.renderHogs()}
             </div>
         )
     }
