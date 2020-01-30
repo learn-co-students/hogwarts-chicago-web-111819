@@ -11,11 +11,20 @@ export default class HogCard extends React.Component {
         }
     }
 
+    slugger = () => {
+        let names = this.props.hogData.name.split(" ")
+        names = names.map(word=> {
+            return word.toLowerCase()
+        })
+        let slugged = names.join('_')
+        return slugged
+    }
+
     generateHog = () => {
         return(
             <div className="ui card">
                 <div className="image">
-                    <img src={require("../hog-imgs/cherub.jpg")} />
+                    <img src={require(`../hog-imgs/${this.slugger()}.jpg`)} />
                 </div>
                 <div>
                     <h1>{this.props.hogData.name}</h1>
