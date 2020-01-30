@@ -1,5 +1,6 @@
 import React from 'react';
 
+
 export default class HogCard extends React.Component {
 
     heartBoi = (e) => {
@@ -9,6 +10,7 @@ export default class HogCard extends React.Component {
             e.target.innerText = '♡'
         }
     }
+
 
     render () {
         return(
