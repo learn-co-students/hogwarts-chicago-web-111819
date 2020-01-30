@@ -19,12 +19,12 @@ export default class HogCard extends React.Component {
                     <img src={require("../hog-imgs/cherub.jpg")} />
                 </div>
                 <div>
-                    <h1>Cherub</h1>
+                    <h1>{this.props.hogData.name}</h1>
                 </div>
                 <div className="image">
                 </div>
                 <div className="content">
-                    <p>Specialty:{}</p>
+                    <p>Specialty: {this.props.hogData.specialty}</p>
                     <button>More Info</button><button>Hide Me</button>
                 </div>
                 <div className="extra content">
