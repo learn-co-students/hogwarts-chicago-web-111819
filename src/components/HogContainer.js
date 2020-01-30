@@ -1,32 +1,41 @@
 import React, {Component} from 'react'
 import HogCard from './HogCard'
-import NavBar from './NavBar'
+import Filter from './Filter'
 import hogObjs from '../porkers_data';
 
 
 
-export default class HogComponent extends Component {
-    state = {
-        isChecked: false
+export default class HogContainer extends Component {
+    constructor(){
+        super()
+        this.state = {
+            isChecked: false
+        }
     }
-    
+
     changeGreaseBoxStatus = () => {
         this.setState({
             isChecked: true
+    })
+    }
+
+    renderHogs = () => {
+        return hogObjs.map(hogObj => {
+            return <HogCard hogData={hogObj}/>
         })
     }
 
-    generateHogs = () => {
+    renderFilteredHogs = () => {
         return hogObjs.map(hogObj => {
-            return <HogCard hogData={hogObj}/>
+
         })
     }
 
     render () {
         return (
             <div>
-                < NavBar changeGreaseBoxStatus={this.changeGreaseBoxStatus}/>  
-                {this.generateHogs()}
+                < Filter changeGreaseBoxStatus={this.changeGreaseBoxStatus}/>  
+                {this.renderHogs()}
             </div>
         )
     }
