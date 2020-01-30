@@ -1,6 +1,8 @@
 import React from 'react';
 
-export default class CardBoi extends React.Component {
+
+export default class HogCard extends React.Component {
+    
 
     render () {
         return(
