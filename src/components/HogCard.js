@@ -11,8 +11,7 @@ export default class HogCard extends React.Component {
         }
     }
 
-
-    render () {
+    generateHog = () => {
         return(
             <div className="ui card">
                 <div className="image">
@@ -31,6 +30,12 @@ export default class HogCard extends React.Component {
                     <p onClick={this.heartBoi}>♡</p>
                 </div>
             </div>
+        )
+    }
+
+    render () {
+        return (
+            this.generateHog()
         )
     }
 }
