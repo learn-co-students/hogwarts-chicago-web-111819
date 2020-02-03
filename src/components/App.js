@@ -3,16 +3,29 @@ import '../App.css';
 import Nav from './Nav';
 import HogsContainer from './HogsContainer';
 import hogs from '../porkers_data';
+import HiddenHogsContainer from './HiddenHogsContainer';
+import APIKEYS from '../private/ApiKeys';
 
 class App extends Component {
 
   constructor() {
     super();
+
+    const updatedHogs = hogs.map(hogObj => {
+      return {
+        ...hogObj,
+        hidden: false
+      }
+    })
+
     this.state = {
-      hogs: hogs,
+      hogs: updatedHogs,
       moreInfo: false,
       greasedHogs: false,
-      sortOrder: "none"
+      sortOrder: "name", /* sort by name by default */
+      hiddenVisible: false,
+      searchTerm: "pig",
+      randomGifs: []
     };
   }
 
@@ -23,17 +36,32 @@ class App extends Component {
   }
 
   toggleSortOrder = e => {
-    let sortOption = e.target.value;
     this.setState({
-      sortOrder: sortOption
+      sortOrder: e.target.value
     });
   }
 
-  filterGreasedHogs = () => {
-    const currentHogs = this.state.hogs;
-    let filteredHogs = this.state.greasedHogs ? 
-    currentHogs.filter(hog => hog.greased) : currentHogs;
+  toggleHidden = () => {
+    this.setState(prevState => {
+      return {hiddenVisible: !prevState.hiddenVisible };
+    });
+  }
+
+  filterHogs = () => {
+    let filteredHogs = this.state.hogs
+
+    if(this.state.greasedHogs) {
+      filteredHogs = filteredHogs.filter(hog => hog.greased)
+    } 
+
+    // don't show 'hidden' hogs
+    filteredHogs = filteredHogs.filter(hog => !hog.hidden)
+
     return filteredHogs;
+  }
+
+  findHiddenHogs = () => {
+    return this.state.hogs.filter(hog => hog.hidden);
   }
 
   sortHogs = currentHogs => {
@@ -53,14 +81,59 @@ class App extends Component {
     return sortedHogs;
   }
 
+  hideHog = hogName => {
+    const updatedHogs = this.state.hogs.map( hog => {
+      if (hog.name === hogName) {
+        return {
+          ...hog,
+          hidden: true
+        }
+      } 
+      return hog
+    });
+
+    this.setState({
+      hogs: updatedHogs
+    });
+
+  }
+
+  componentDidMount() {
+    this.getData();
+  }
+
+  getData = (term = this.state.searchTerm) => {
+    let apiKey = APIKEYS.hogwarts;
+    let url = `https://api.giphy.com/v1/gifs/search?q=${term}&api_key=${apiKey}&rating=g`;
+    
+    fetch(url)
+      .then(response => response.json())
+      .then(returnedData => {
+        this.setState({
+          searchTerm: term,
+          randomGifs: returnedData.data /* .images.original.url */
+        });
+      });
+  }
+
   render() {
     return (
       <div className="App">
         <Nav />
+        {this.state.hiddenVisible ? 
+        <HiddenHogsContainer
+          currentHogs={this.sortHogs(this.findHiddenHogs()) }
+          hideHog={this.hideHog}
+          gifs={this.state.randomGifs}
+        />
+        : null }
         <HogsContainer
           filterHogs={this.toggleGreasedHogs}
           sortOrder={this.toggleSortOrder}
-          currentHogs={this.sortHogs(this.filterGreasedHogs()) }
+          currentHogs={this.sortHogs(this.filterHogs()) }
+          hideHog={this.hideHog}
+          toggleHidden={this.toggleHidden}
+          hidden={this.state.hiddenVisible}
         />
       </div>
     );

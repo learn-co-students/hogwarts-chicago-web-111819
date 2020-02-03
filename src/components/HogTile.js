@@ -15,7 +15,9 @@ export default class HogTile extends Component {
   }
 
   toggleDisplay = () => {
-    this.setState({ moreInfo: !this.state.moreInfo });
+    this.setState(prevState => {
+      return {moreInfo: !prevState.moreInfo };
+    });
   }
 
   render() {
@@ -38,7 +40,7 @@ export default class HogTile extends Component {
 
           <div className="extra content">
             <button onClick={this.toggleDisplay}>{this.state.moreInfo ? "Less " : "More "} Info</button>
-            <button>Hide Me</button>
+            <button onClick={() => this.props.hideHog(this.props.hog.name)}>Hide Me</button>
           </div>
         </div>
 
