@@ -23,8 +23,15 @@ class App extends Component {
 
     this.state = {
       hogs: updatedHogsData,
-      showGreasedOnly: false
+      showGreasedOnly: false,
+      sortBy: ''
     }
+  }
+
+  toggleSort = (e) => {
+    this.setState({
+      sortBy: e.target.value
+    })
   }
 
   toggleGreased = () => {
@@ -57,6 +64,10 @@ class App extends Component {
       return filteredHogs = filteredHogs.filter(hog => hog.greased)
     }
 
+    if (this.state.sortBy === 'name') {
+      
+    }
+
     filteredHogs = filteredHogs.filter(hog => !hog.hidden)
 
     return filteredHogs
@@ -68,6 +79,7 @@ class App extends Component {
           < Nav />
           < Filter 
             toggleGreased={this.toggleGreased}
+            toggleSort={this.toggleSort}
           />
           < HogContainer 
             hogs={this.filteredHogs()} 
