@@ -13,10 +13,11 @@ export default class Filter extends Component {
         return (
             <div className="filterWrapper">
                 <label>Sort By: </label>
-                <select onChange={this.props.toggleSort}>
+                <select onChange={(e) => this.props.toggleSort(e)}>
                     <option value=""></option>
                     <option value="name">name</option>
-                    <option value="weight">weight</option>
+                    <option value="heaviest">heaviest</option>
+                    <option value="lightest">lightest</option>
                 </select>
                 <label>Show Greased Only?</label>
                 <input type="checkbox" onChange={() => this.props.toggleGreased()}/>

@@ -60,12 +60,20 @@ class App extends Component {
   filteredHogs = () => {
     let filteredHogs = this.state.hogs
 
-    if (this.state.showGreasedOnly) {
-      return filteredHogs = filteredHogs.filter(hog => hog.greased)
+    if (this.state.sortBy === 'name') {
+      filteredHogs = filteredHogs.sort((a,b) => (a.name.toLowerCase() > b.name.toLowerCase()) ? 1 : -1)
     }
 
-    if (this.state.sortBy === 'name') {
-      
+    if (this.state.sortBy === 'heaviest') {
+      filteredHogs = filteredHogs.sort((hog1,hog2) => (hog1.weight > hog2.weight) ? -1 : 1)
+    }
+
+    if (this.state.sortBy === 'lightest') {
+      filteredHogs = filteredHogs.sort((hog1,hog2) => (hog1.weight > hog2.weight) ? 1 : -1)
+    }
+
+    if (this.state.showGreasedOnly) {
+      filteredHogs = filteredHogs.filter(hog => hog.greased)
     }
 
     filteredHogs = filteredHogs.filter(hog => !hog.hidden)
