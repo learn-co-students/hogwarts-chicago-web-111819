@@ -1,13 +1,6 @@
 import React, { Component } from 'react'
 
 export default class Filter extends Component {
-    // constructor() {
-    //     super()
-
-    //     // this.state = {
-
-    //     // }
-    // }
 
     render(){
         return (
@@ -21,6 +14,7 @@ export default class Filter extends Component {
                 </select>
                 <label>Show Greased Only?</label>
                 <input type="checkbox" onChange={() => this.props.toggleGreased()}/>
+                <button onClick={() => this.props.toggleShowHiddenHogs()}>{this.props.showHiddenStatus ? 'Hide Hidden Hogs' : 'Show Hidden Hogs'}</button>
             </div>
         )
     }

@@ -4,6 +4,7 @@ import Nav from './Nav'
 import hogs from '../porkers_data'
 import HogContainer from './HogContainer'
 import Filter from './Filter'
+import HiddenHogsContainer from './HiddenHogsContainer'
 
 class App extends Component {
   constructor(){
@@ -24,7 +25,8 @@ class App extends Component {
     this.state = {
       hogs: updatedHogsData,
       showGreasedOnly: false,
-      sortBy: ''
+      sortBy: '',
+      showHiddenHogs: false
     }
   }
 
@@ -57,6 +59,12 @@ class App extends Component {
     })
   }
 
+  toggleShowHiddenHogs = () => {
+    this.setState(prevState => ({
+      showHiddenHogs: !prevState.showHiddenHogs
+    }))
+  }
+
   filteredHogs = () => {
     let filteredHogs = this.state.hogs
 
@@ -81,13 +89,27 @@ class App extends Component {
     return filteredHogs
   }
 
+  hiddenHogs = () => {
+    let filteredHogs = this.state.hogs
+
+    filteredHogs = filteredHogs.filter(hog => hog.hidden)
+
+    return filteredHogs
+  }
+
   render() {
     return (
       <div className="App">
           < Nav />
           < Filter 
             toggleGreased={this.toggleGreased}
-            toggleSort={this.toggleSort}
+            toggleSort={this.toggleSort} 
+            toggleShowHiddenHogs={this.toggleShowHiddenHogs}
+            showHiddenStatus={this.state.showHiddenHogs}
+          />
+          < HiddenHogsContainer 
+            hogs={this.hiddenHogs()}
+            showHiddenHogsStatus={this.state.showHiddenHogs}
           />
           < HogContainer 
             hogs={this.filteredHogs()} 
