@@ -7,7 +7,6 @@ export default class Filter extends Component {
             <div className="filterWrapper">
                 <label>Sort By: </label>
                 <select onChange={(e) => this.props.toggleSort(e)}>
-                    <option value=""></option>
                     <option value="name">name</option>
                     <option value="heaviest">heaviest</option>
                     <option value="lightest">lightest</option>

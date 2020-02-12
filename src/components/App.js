@@ -25,7 +25,7 @@ class App extends Component {
     this.state = {
       hogs: updatedHogsData,
       showGreasedOnly: false,
-      sortBy: '',
+      sortBy: 'name',
       showHiddenHogs: false
     }
   }
